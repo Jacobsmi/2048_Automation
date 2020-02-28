@@ -12,7 +12,7 @@ class Player:
     def take_turn(self):
         # First gets the tiles from the game in an raw format
         board_info = self.game.get_tiles()
-        # Next process the board_info so the program can understand how the board looks
+        # Next parse the board_info so the program can understand how the board looks
         board_array = self.process_board(board_info)
         # Once input has been parsed and board has been created then moves must be simulated
         best_move = self.simulate_moves(board_array)
@@ -32,19 +32,75 @@ class Player:
             y_tile = int(tile_parts[4][0])
             # Add the values to the board array
             board_array[y_tile-1][x_tile-1] = tile_value
-            print("Placing tile")
-        # Prints the board in its current state
-        for row in board_array:
-            print(row)
         return board_array
     
-    
+    # This method will call methods to simulate all 4 moves(Up, Down, Left, and Right) and then once the simulate methods return
+    # the simulated boards a method is called to evaluate their score 
     def simulate_moves(self, board_array):
-        print("Testing array")
-        right_score = self.simulate_right(board_array)
+        right_board = self.simulate_right(board_array)
 
+    
     # This method will take the board_array that represents the current game state and then with 
     # logic will simulate what will happen if the AI was to move right
-    def simulate_right(self, board_array)    
+    def simulate_right(self, board_array):
+            x = 1
+            for row in board_array:
+                print(row)
+                # What to to for the second from right block
+                if row[2] != 0:
+                    if row[3] == 0:
+                        row[3] = row[2]
+                        row[2] = 0
+                    elif row[3] == row[2]:
+                        row[3] = row[2]+row[3]
+                        row[2] = 0
+            
+                # What to do for the second from left block
+                if row[1] != 0:
+                    # Represents if no other blocks in the row are occupied
+                    # Can guarantee that if row[3] is empty row[2] is also empty
+                    if row[3] == 0:
+                        row[3] = row[1]
+                        row[1] = 0
+                    # Represents if the right-most block is occupied 
+                    elif row[3] != 0 and row[2] == 0:
+                        if row[1] == row[3]:
+                            row[3] = row[1] + row[3]
+                            row[1] = 0 
+                        elif row[1] != row[3]:
+                            row[2] = row[1]
+                            row[1] = 0
+                    # Represents if both blocks are occupied
+                    elif row[2] != 0:
+                        if row[1] == row[2]:
+                            row[2] = row[1] + row[2]
+                            row[1] = 0
 
-    
+                # What to do for the far left block
+                if row[0] != 0:
+                    # Represents if no other blocks in the row are occupied
+                    if row[3] == 0:
+                        row[3] = row[0]
+                        row[0] = 0
+                    elif row[3] != 0 and row[2] == 0 and row[1] == 0:
+                        if row[0] == row[3]:
+                            row[3] = row[0] + row[3]
+                            row[0] = 0 
+                        elif row[0] != row[3]:
+                            row[2] = row[0]
+                            row[0] = 0
+                    elif row[2] != 0 and row[1] == 0:
+                        if row[0] == row[2]:
+                            row[2] = row[2] + row[0]
+                            row[0] = 0
+                        else:
+                            row[1] = row[0]
+                            row[0] = 0
+                    elif row[1] !=0:
+                        if row[0] == row[1]:
+                            row[1] = row[0] + row[1]
+                            row[0] = 0
+            print("________________________________________________")
+            for row in board_array:
+                print(row)
+            print("Simulated right")

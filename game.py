@@ -18,6 +18,7 @@ class Driver:
         tiles = self.web_driver.find_elements_by_class_name("tile")
         tiles_info = []
         # Loop through all elements of the list
+        x= 1
         for tile in tiles:
             tiles_info.append(tile.get_attribute("class"))
         return tiles_info

@@ -1,0 +1,18 @@
+File "main.py", line 14, in <module>
+    main()
+  File "main.py", line 6, in main
+    bob.take_turn()
+  File "D:\Coding\2048_Automation\AI.py", line 14, in take_turn
+    board_info = self.game.get_tiles()
+  File "D:\Coding\2048_Automation\game.py", line 33, in get_tiles
+    tiles_info.append(tile.get_attribute("class"))
+  File "C:\Users\jacob\AppData\Local\Programs\Python\Python37-32\lib\site-packages\selenium\webdriver\remote\webelement.py", line 141, in get_attribute
+    self, name)
+  File "C:\Users\jacob\AppData\Local\Programs\Python\Python37-32\lib\site-packages\selenium\webdriver\remote\webdriver.py", line 636, in execute_script
+    'args': converted_args})['value']
+  File "C:\Users\jacob\AppData\Local\Programs\Python\Python37-32\lib\site-packages\selenium\webdriver\remote\webdriver.py", line 321, in execute
+    self.error_handler.check_response(response)
+  File "C:\Users\jacob\AppData\Local\Programs\Python\Python37-32\lib\site-packages\selenium\webdriver\remote\errorhandler.py", line 242, in check_response
+    raise exception_class(message, screen, stacktrace)
+selenium.common.exceptions.StaleElementReferenceException: Message: stale element reference: element is not attached to the page document
+  (Session info: chrome=80.0.3987.122)
