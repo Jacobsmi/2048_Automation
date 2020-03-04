@@ -45,7 +45,9 @@ class Player:
         left_board = deepcopy(board_array)
         up_board = deepcopy(board_array)
         down_board = deepcopy(board_array)
-        
+        print("Original:")
+        for row in board_array:
+                print(row)
         # Simulate actions on repective boards
         self.simulate_right(right_board)
         self.simulate_left(left_board)
@@ -54,9 +56,7 @@ class Player:
     # This method will take the board_array that represents the current game state and then with 
     # logic will simulate what will happen if the AI was to move right
     def simulate_right(self, board_array):
-            x = 1
             for row in board_array:
-                print(row)
                 # What to to for the second from right block
                 if row[2] != 0:
                     if row[3] == 0:
@@ -111,75 +111,68 @@ class Player:
                         if row[0] == row[1]:
                             row[1] = row[0] + row[1]
                             row[0] = 0
-            print("________________________________________________")
+            print("Right Array:")
             for row in board_array:
                 print(row)
-            print("Simulated right")
 
     def simulate_left(self, board_array):
-        x = 1
         for row in board_array:
-            print(row)
-            # What to to for the second from left block
-            if row[1] != 0:
-                if row[0] == 0:
-                    row[0] = row[1]
-                    row[1] = 0
-                elif row[0] == row[1]:
-                    row[0] = row[1] + row[0]
-                    row[1] = 0
-
-            # What to do for the second from left block
-            if row[2] != 0:
-                # Represents if no other blocks in the row are occupied
-                # Can guarantee that if row[3] is empty row[2] is also empty
-                if row[0] == 0:
-                    row[0] = row[2]
-                    row[2] = 0
-                # Represents if the left-most block is occupied
-                elif row[0] != 0 and row[1] == 0:
-                    if row[2] == row[0]:
-                        row[0] = row[2] + row[0]
+                # What to to if there is a block in the second to left
+                if row[1] != 0:
+                    # If the left-most block is empty
+                    if row[0] == 0:
+                        row[0] = row[1]
+                        row[1] = 0
+                    # If the left most block is the same as the second
+                    elif row[0] == row[1]:
+                        row[0] = row[1]+row[0]
+                        row[1] = 0
+            
+                # What to do for the second from right block
+                if row[2] != 0:
+                    # Represents if no other blocks in the row are occupied
+                    # Can guarantee that if row[0] is empty row[1] is also empty
+                    if row[0] == 0:
+                        row[0] = row[2]
                         row[2] = 0
-                    elif row[1] != row[3]:
-                        row[2] = row[1]
-                        row[1] = 0
-                # Represents if both blocks are occupied
-                elif row[2] != 0:
-                    if row[1] == row[2]:
-                        row[2] = row[1] + row[2]
-                        row[1] = 0
+                    # Represents if the left-most block is occupied but not [1]
+                    elif row[0] != 0 and row[1] == 0:
+                        if row[2] == row[0]:
+                            row[0] = row[2] + row[0]
+                            row[2] = 0 
+                        elif row[2] != row[0]:
+                            row[1] = row[2]
+                            row[2] = 0
+                    # Represents if both blocks are occupied
+                    elif row[1] != 0:
+                        if row[1] == row[2]:
+                            row[1] = row[1] + row[2]
+                            row[2] = 0
 
-            # What to do for the far left block
-            if row[0] != 0:
-                # Represents if no other blocks in the row are occupied
-                if row[3] == 0:
-                    row[3] = row[0]
-                    row[0] = 0
-                # Represents if there is only a block in the far right
-                elif row[3] != 0 and row[2] == 0 and row[1] == 0:
-                    # If the far right block and far left have the same value
-                    if row[0] == row[3]:
-                        row[3] = row[0] + row[3]
-                        row[0] = 0
-                    # If they have different values
-                    elif row[0] != row[3]:
-                        row[2] = row[0]
-                        row[0] = 0
-                # Represents if there is one in the far right and the second to right
-                elif row[2] != 0 and row[1] == 0:
-                    if row[0] == row[2]:
-                        row[2] = row[2] + row[0]
-                        row[0] = 0
-                    else:
-                        row[1] = row[0]
-                        row[0] = 0
-                # Represents if all the blocks in the row are full
-                elif row[1] != 0:
-                    if row[0] == row[1]:
-                        row[1] = row[0] + row[1]
-                        row[0] = 0
-        print("________________________________________________")
+                # What to do for the far right block
+                if row[3] != 0:
+                    # Represents if no other blocks in the row are occupied
+                    if row[0] == 0:
+                        row[0] = row[3]
+                        row[3] = 0
+                    elif row[0] != 0 and row[2] == 0 and row[1] == 0:
+                        if row[0] == row[3]:
+                            row[0] = row[0] + row[3]
+                            row[3] = 0 
+                        elif row[0] != row[3]:
+                            row[1] = row[3]
+                            row[3] = 0
+                    elif row[1] != 0 and row[2] == 0:
+                        if row[3] == row[1]:
+                            row[1] = row[1] + row[3]
+                            row[3] = 0
+                        else:
+                            row[2] = row[3]
+                            row[3] = 0
+                    elif row[2] !=0:
+                        if row[3] == row[2]:
+                            row[2] = row[3] + row[2]
+                            row[3] = 0
+        print("Left Array:")
         for row in board_array:
             print(row)
-        print("Simulated left")

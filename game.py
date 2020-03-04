@@ -1,6 +1,7 @@
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.common.action_chains import ActionChains
+from selenium.webdriver.support.ui import WebDriverWait 
 import random
 import time
 
@@ -20,11 +21,12 @@ class Driver:
         actions.perform()
 
     def get_tiles(self):
+        # Ensures the page has loaded and prevents stale element errors
+        tileWait = WebDriverWait(self.web_driver, 15).until(lambda a: a.find_elements_by_class_name("tile"))
         # Puts any elements with the class name tile into a list called tiles under the form of WebElements
         tiles = self.web_driver.find_elements_by_class_name("tile")
         tiles_info = []
         # Loop through all elements of the list
-        x= 1
         for tile in tiles:
             tiles_info.append(tile.get_attribute("class"))
         return tiles_info
