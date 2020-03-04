@@ -12,6 +12,12 @@ class Driver:
         self.web_driver = webdriver.Chrome('C:/bin/chromedriver')
         # Opens the game in a webpage
         self.web_driver.get("https://play2048.co/")
+        actions = ActionChains(self.web_driver)
+        actions.send_keys(Keys.UP)
+        actions.send_keys(Keys.DOWN)
+        actions.send_keys(Keys.UP)
+        actions.send_keys(Keys.DOWN)
+        actions.perform()
 
     def get_tiles(self):
         # Puts any elements with the class name tile into a list called tiles under the form of WebElements
