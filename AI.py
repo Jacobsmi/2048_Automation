@@ -51,6 +51,8 @@ class Player:
         # Simulate actions on repective boards
         self.simulate_right(right_board)
         self.simulate_left(left_board)
+        self.simulate_down(down_board)
+        self.simulate_up(up_board)
         
     
     # This method will take the board_array that represents the current game state and then with 
@@ -176,3 +178,136 @@ class Player:
         print("Left Array:")
         for row in board_array:
             print(row)
+    def simulate_down(self, board_array):
+        # Checks by column
+        for x in range(0,4,1):
+            # What to do if the second from the bottom has a tile
+            if board_array[2][x] != 0:
+                # If the bottom tile in the column is not occupied
+                if board_array[3][x] == 0:
+                    board_array[3][x] = board_array[2][x]
+                    board_array[2][x] = 0
+                # If it is occupied and they are the same value
+                elif board_array[3][x] != 0 and board_array[2][x] == board_array[3][x]:
+                    board_array[3][x] = board_array[2][x]+board_array[3][x]
+                    board_array[2][x] = 0
+            # What to do if the second from the top of the column is occupied
+            if board_array[1][x] != 0:
+                # If no other tiles in the column are occupied go straight to the bottom
+                if board_array[3][x] == 0:
+                    board_array[3][x] = board_array[1][x]
+                    board_array[1][x] = 0
+                # If only the bottom on is occupied
+                elif board_array[3][x] != 0 and board_array[2][x] == 0:
+                    # and the value is the same as the one in the bottom
+                    if board_array[3][x] == board_array[1][x]:
+                        board_array[3][x] = board_array[3][x] + board_array[1][x]
+                        board_array[1][x] = 0
+                    # and they are different values
+                    elif board_array[3][x] != board_array[1][x]:
+                        board_array[2][x] = board_array[1][x]
+                        board_array[1][x] = 0
+                # If both the second to the bottom and the bottom are occupied
+                elif board_array[2][x] != 0:
+                    if board_array[2][x] == board_array[1][x]:
+                        board_array[2][x] = board_array[1][x] + board_array[2][x]
+                        board_array[1][x] = 0
+            # If the top tile of the column is occupied
+            if board_array[0][x] != 0:
+                # If the bottom tile in the column is not occupied
+                if board_array[3][x] == 0:
+                    board_array[3][x] = board_array[0][x]
+                    board_array[0][x] = 0
+                # If only the bottom on is occupied
+                elif board_array[3][x] != 0 and board_array[2][x] == 0 and board_array[1][x] == 0:
+                    # and the value is the same as the one in the bottom
+                    if board_array[3][x] == board_array[0][x]:
+                        board_array[3][x] = board_array[3][x] + board_array[0][x]
+                        board_array[0][x] = 0
+                    # and they are different values
+                    elif board_array[3][x] != board_array[0][x]:
+                        board_array[2][x] = board_array[0][x]
+                        board_array[0][x] = 0
+                elif board_array[2][x] != 0 and board_array[1][x] == 0:
+                    if board_array[2][x] == board_array[0][x]:
+                        board_array[2][x] = board_array[2][x] + board_array[0][x]
+                        board_array[0][x] = 0
+                    else:
+                        board_array[1][x] = board_array[0][x]
+                        board_array[0][x] = 0
+                elif board_array[1][x] != 0:
+                    if board_array[1][x] == board_array[0][x]:
+                        board_array[1][x] = board_array[1][x] + board_array[0][x]
+                        board_array[0][x] = 0
+        print("Down Array:")
+        for row in board_array:
+            print(row)
+    def simulate_up(self, board_array):
+        # Checks by column
+        for x in range(0,4,1):
+            # What to do if the second from the bottom has a tile
+            if board_array[1][x] != 0:
+                # If the bottom tile in the column is not occupied
+                if board_array[0][x] == 0:
+                    board_array[0][x] = board_array[1][x]
+                    board_array[1][x] = 0
+                # If it is occupied and they are the same value
+                elif board_array[0][x] != 0 and board_array[1][x] == board_array[0][x]:
+                    board_array[0][x] = board_array[1][x]+board_array[0][x]
+                    board_array[1][x] = 0
+            # What to do if the second from the top of the column is occupied
+            if board_array[2][x] != 0:
+                # If no other tiles in the column are occupied go straight to the bottom
+                if board_array[0][x] == 0:
+                    board_array[0][x] = board_array[2][x]
+                    board_array[2][x] = 0
+                # If only the bottom on is occupied
+                elif board_array[0][x] != 0 and board_array[1][x] == 0:
+                    # and the value is the same as the one in the bottom
+                    if board_array[0][x] == board_array[2][x]:
+                        board_array[0][x] = board_array[0][x] + board_array[2][x]
+                        board_array[2][x] = 0
+                    # and they are different values
+                    elif board_array[0][x] != board_array[2][x]:
+                        board_array[1][x] = board_array[2][x]
+                        board_array[2][x] = 0
+                # If both the second to the bottom and the bottom are occupied
+                elif board_array[1][x] != 0:
+                    if board_array[1][x] == board_array[2][x]:
+                        board_array[1][x] = board_array[2][x] + board_array[1][x]
+                        board_array[2][x] = 0
+            # If the top tile of the column is occupied
+            if board_array[3][x] != 0:
+                # If the bottom tile in the column is not occupied
+                if board_array[0][x] == 0:
+                    board_array[0][x] = board_array[3][x]
+                    board_array[3][x] = 0
+                # If only the bottom on is occupied
+                elif board_array[0][x] != 0 and board_array[1][x] == 0 and board_array[2][x] == 0:
+                    # and the value is the same as the one in the bottom
+                    if board_array[0][x] == board_array[3][x]:
+                        board_array[0][x] = board_array[0][x] + board_array[3][x]
+                        board_array[3][x] = 0
+                    # and they are different values
+                    elif board_array[0][x] != board_array[3][x]:
+                        board_array[1][x] = board_array[3][x]
+                        board_array[3][x] = 0
+                elif board_array[1][x] != 0 and board_array[2][x] == 0:
+                    if board_array[1][x] == board_array[3][x]:
+                        board_array[1][x] = board_array[1][x] + board_array[3][x]
+                        board_array[3][x] = 0
+                    else:
+                        board_array[2][x] = board_array[3][x]
+                        board_array[3][x] = 0
+                elif board_array[2][x] != 0:
+                    if board_array[2][x] == board_array[3][x]:
+                        board_array[2][x] = board_array[2][x] + board_array[3][x]
+                        board_array[3][x] = 0
+        print("Up Array:")
+        for row in board_array:
+            print(row)
+                    
+
+                 
+            
+
