@@ -3,10 +3,8 @@ import time
 
 def main():
     bob = Player()
-    bob.take_turn()
-    done = input("Press enter when done")
-    if done == "":
-        quit()
+    while(True):
+        bob.take_turn()
 
 
 

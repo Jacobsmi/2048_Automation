@@ -13,11 +13,20 @@ class Driver:
         self.web_driver = webdriver.Chrome('C:/bin/chromedriver')
         # Opens the game in a webpage
         self.web_driver.get("https://play2048.co/")
+        
+        
+
+    def make_move(self, move_num):
+        print("Making move {}".format(move_num))
         actions = ActionChains(self.web_driver)
-        actions.send_keys(Keys.UP)
-        actions.send_keys(Keys.DOWN)
-        actions.send_keys(Keys.UP)
-        actions.send_keys(Keys.DOWN)
+        if move_num == 1:
+            actions.send_keys(Keys.LEFT)
+        elif move_num == 2:
+            actions.send_keys(Keys.DOWN)
+        elif move_num == 3:
+            actions.send_keys(Keys.RIGHT)
+        elif move_num == 4:
+            actions.send_keys(Keys.UP)
         actions.perform()
 
     def get_tiles(self):

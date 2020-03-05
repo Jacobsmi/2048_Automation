@@ -1,6 +1,7 @@
 from game import Driver
 from array import *
 from copy import deepcopy
+import random
 
 class Player:
     # Constructor
@@ -16,8 +17,10 @@ class Player:
         board_info = self.game.get_tiles()
         # Next parse the board_info so the program can understand how the board looks
         board_array = self.process_board(board_info)
-        # Once input has been parsed and board has been created then moves must be simulated
+        # Once input has been parsed and board has been created then moves must be simulated and scored
         best_move = self.simulate_moves(board_array)
+        # Once best move has been determined make it
+        self.game.make_move(best_move)
 
 
     # Method takes unprocessed board info and creates a layout of the game that python can understand using a 2D-Array
@@ -53,8 +56,39 @@ class Player:
         self.simulate_left(left_board)
         self.simulate_down(down_board)
         self.simulate_up(up_board)
+
+        # Now calculate score based on making those moves
+        left_score = self.score(left_board)
+        print("Left score: {} ".format(left_score))
+        right_score = self.score(right_board)
+        print("Right score: {} ".format(right_score))
+        down_score = self.score(down_board)
+        print("Down score: {} ".format(down_score))
+        up_score = self.score(up_board)
+        print("Up score: {} ".format(up_score))
+        if(up_score == down_score and down_score == left_score and left_score == right_score):
+            x = random.randrange(1,4,1)
+            return x
+        elif left_score == max([left_score,right_score,down_score,up_score]):
+            return 1    
+        elif down_score == max([left_score,right_score,down_score,up_score]):
+            return 2
+        elif right_score == max([left_score,right_score,down_score,up_score]):
+            return 3
+        elif up_score == max([left_score,right_score,down_score,up_score]):
+            return 4
+
         
-    
+    def score(self, board_array):
+        score = 0
+        for row in board_array:
+            for x in range(0,4,1):
+                if row[x] != 0:
+                    score = score + row[x]
+                elif row[x] == 0:
+                    score = score + 256
+        return score
+
     # This method will take the board_array that represents the current game state and then with 
     # logic will simulate what will happen if the AI was to move right
     def simulate_right(self, board_array):
