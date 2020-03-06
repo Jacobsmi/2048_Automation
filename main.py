@@ -4,6 +4,7 @@ import time
 def main():
     bob = Player()
     while(True):
+        time.sleep(0.5)
         bob.take_turn()
 
 

@@ -32,7 +32,8 @@ class Player:
             #Split the class name to get information from it
             tile_parts = tile.split("-")
             # Parse the values
-            tile_value = int(tile_parts[1][0])
+            value_parts = tile_parts[1].split(" ")
+            tile_value = int(value_parts[0])
             x_tile = int(tile_parts[3])
             y_tile = int(tile_parts[4][0])
             # Add the values to the board array
