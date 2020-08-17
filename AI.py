@@ -19,7 +19,7 @@ class Player:
         board_array = self.process_board(board_info)
         # Once input has been parsed and board has been created then moves must be simulated and scored
         best_move = self.simulate_moves(board_array)
-        # Once best move has been determined make it
+        # Once best move has been determined make iscoret
         self.game.make_move(best_move)
 
 
@@ -62,19 +62,27 @@ class Player:
         left_score = self.score(left_board)
         print("Left score: {} ".format(left_score))
         right_score = self.score(right_board)
+        last_right_board = right_board
         print("Right score: {} ".format(right_score))
         down_score = self.score(down_board)
         print("Down score: {} ".format(down_score))
-        up_score = self.score(up_board)
+        up_score = self.score(up_board) - 100
         print("Up score: {} ".format(up_score))
-        if(up_score == down_score and down_score == left_score and left_score == right_score):
-            x = random.randrange(1,4,1)
+        # Chooses which move to make based on score prioritizing moving left and down
+        if(up_score + 100 == down_score and down_score == left_score and left_score == right_score):
+            x = random.randrange(1,5,1)
             return x
         elif left_score == max([left_score,right_score,down_score,up_score]):
+            # If the left repeats
+            if board_array == left_board:
+                print("REPEATING LEFT")
+                return 3
             return 1    
         elif down_score == max([left_score,right_score,down_score,up_score]):
             return 2
         elif right_score == max([left_score,right_score,down_score,up_score]):
+            if board_array == right_board:
+                return 1
             return 3
         elif up_score == max([left_score,right_score,down_score,up_score]):
             return 4
@@ -82,12 +90,23 @@ class Player:
         
     def score(self, board_array):
         score = 0
+        all_tile_values = []
         for row in board_array:
             for x in range(0,4,1):
+                all_tile_values.append(row[x])
                 if row[x] != 0:
                     score = score + row[x]
                 elif row[x] == 0:
                     score = score + 256
+        all_tile_values.sort()
+        if board_array[3][0] == all_tile_values[-1] and board_array[3][1] == all_tile_values[-2] and board_array[3][2] == all_tile_values[-3] and board_array[3][3] == all_tile_values[-4]:
+            score += 1250
+        elif board_array[3][0] == all_tile_values[-1] and board_array[3][1] == all_tile_values[-2] and board_array[3][2] == all_tile_values[-3]:
+            score += 1000
+        elif board_array[3][0] == all_tile_values[-1] and board_array[3][1] == all_tile_values[-2]:
+            score += 750
+        elif board_array[3][0] == all_tile_values[-1]:
+            score += 500
         return score
 
     # This method will take the board_array that represents the current game state and then with 

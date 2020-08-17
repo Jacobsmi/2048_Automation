@@ -10,7 +10,7 @@ class Driver:
     def __init__(self):
         super().__init__()
         # Creating the driver and passing the location on HDD as an argument
-        self.web_driver = webdriver.Chrome('C:/bin/chromedriver')
+        self.web_driver = webdriver.Chrome('./chromedriver')
         # Opens the game in a webpage
         self.web_driver.get("https://play2048.co/")
         
